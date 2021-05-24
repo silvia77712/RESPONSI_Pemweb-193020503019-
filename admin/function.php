@@ -182,7 +182,7 @@ function konfirmasi($kode_cart, $id_user){
     global $db_con;
     
     
-    $keranjang = show("SELECT * FROM keranjang");
+    $keranjang = show("SELECT * FROM keranjang WHERE id_user = '$id_user' ");
 
     foreach ($keranjang as $k){
         $id_produk = $k["id_produk"];

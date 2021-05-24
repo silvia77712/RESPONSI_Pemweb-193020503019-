@@ -29,14 +29,13 @@ CREATE TABLE `keranjang` (
   PRIMARY KEY (`id_cart`),
   KEY `id_produk` (`id_produk`),
   CONSTRAINT `keranjang_ibfk_1` FOREIGN KEY (`id_produk`) REFERENCES `produk` (`id_produk`)
-) ENGINE=InnoDB AUTO_INCREMENT=44 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=utf8mb4;
 
 /*Data for the table `keranjang` */
 
 insert  into `keranjang`(`id_cart`,`id_produk`,`jumlah_beli`,`total_harga`,`id_user`) values 
 (41,47,1,20000,'USR003'),
-(42,45,1,15000,'USR003'),
-(43,47,2,40000,'USR001');
+(42,45,1,15000,'USR003');
 
 /*Table structure for table `produk` */
 
@@ -83,7 +82,7 @@ CREATE TABLE `transaksi` (
   `status` varchar(50) DEFAULT NULL,
   `id_user` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`no_transaksi`)
-) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=59 DEFAULT CHARSET=utf8mb4;
 
 /*Data for the table `transaksi` */
 
@@ -100,7 +99,17 @@ insert  into `transaksi`(`no_transaksi`,`id_produk`,`jumlah_beli`,`tanggal_beli`
 (39,48,1,'2021-05-24',25000,'TRX003','menunggu pembayaran','USR001'),
 (40,40,1,'2021-05-24',150000,'TRX003','menunggu pembayaran','USR001'),
 (47,41,1,'2021-05-24',35000,'TRX004','menunggu pembayaran','USR003'),
-(48,46,1,'2021-05-24',21000,'TRX004','menunggu pembayaran','USR003');
+(48,46,1,'2021-05-24',21000,'TRX004','menunggu pembayaran','USR003'),
+(49,47,1,'2021-05-24',20000,'TRX005','menunggu pembayaran','USR001'),
+(50,45,1,'2021-05-24',15000,'TRX005','menunggu pembayaran','USR001'),
+(51,47,2,'2021-05-24',40000,'TRX005','menunggu pembayaran','USR001'),
+(52,40,1,'2021-05-24',150000,'TRX005','menunggu pembayaran','USR001'),
+(53,41,1,'2021-05-24',35000,'TRX005','menunggu pembayaran','USR001'),
+(54,47,1,'2021-05-24',20000,'TRX006','menunggu pembayaran','USR001'),
+(55,45,1,'2021-05-24',15000,'TRX006','menunggu pembayaran','USR001'),
+(56,41,1,'2021-05-24',35000,'TRX006','menunggu pembayaran','USR001'),
+(57,57,1,'2021-05-24',15000,'TRX006','menunggu pembayaran','USR001'),
+(58,46,1,'2021-05-24',21000,'TRX006','menunggu pembayaran','USR001');
 
 /*Table structure for table `user` */
 
@@ -179,7 +188,7 @@ DELIMITER $$
 BEGIN
 	DECLARE tothar INT;
 	SET tothar = ((SELECT harga FROM produk where id_produk = id_produka)*jumlah_beli);
-		INSERT INTO keranjang VALUES('', id_produka, jumlah_beli, tothar, id_usera);
+		INSERT INTO keranjang(id_produk, jumlah_beli, total_harga, id_user) VALUES(id_produka, jumlah_beli, tothar, id_usera);
 	END */$$
 DELIMITER ;
 
@@ -207,7 +216,7 @@ BEGIN
 	declare tgl date;
 	SET totbay = (SELECT p.harga*jumlah_beli FROM produk AS p WHERE p.id_produk = id_produka); 
 	set tgl = (select curdate());
-	Insert into transaksi values ('',id_produka, jumlah_beli, tgl, totbay,kode,'menunggu pembayaran', id_usera);
+	Insert into transaksi (id_produk, jumlah_beli, tanggal_beli, total_bayar,kode,status, id_user) values (id_produka, jumlah_beli, tgl, totbay,kode,'menunggu pembayaran', id_usera);
 	END */$$
 DELIMITER ;
 
